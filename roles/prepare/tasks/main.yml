@@ -1,0 +1,11 @@
+---
+-   name: "update apt packages"
+    become: yes
+    become_method: sudo
+    apt:
+        update_cache: yes
+
+-   name: "remove dependencies that are no longer required"
+    become: yes
+    apt:
+        autoremove: yes
