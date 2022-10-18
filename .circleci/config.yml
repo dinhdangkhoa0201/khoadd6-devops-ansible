@@ -20,11 +20,16 @@ jobs:
 
     configure_infrastructure:
         docker:
-            -   image:
+            -   image: python:3.7-alpine3.11
         steps:
             - checkout
             -   add_ssh_keys:
                   fingerprints: ["48:48:9d:82:d5:6c:9e:85:40:52:e3:bc:b7:49:d4:c0"]
+            -   run:
+                    name: Install dependencies
+                    command: |
+                        # install the dependencies needed for your playbook
+                        apk add --update ansible
             -   run:
                     name: Install Ansible
                     command: |
@@ -37,5 +42,7 @@ jobs:
 workflows:
     myWorkflow:
         jobs:
-            - configure_infrastructure
+            - create_infrastructure
+            - configure_infrastructure:
+                  requires: create_infrastructure
 
