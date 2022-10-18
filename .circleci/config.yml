@@ -39,11 +39,27 @@ jobs:
                     command: |
                         ansible-playbook -i inventory main.yml
 
+    smoke_test:
+        docker:
+            -   image:
+        steps:
+            -   run: apk add --update curl
+            -   run:
+                    name: smoke test
+                    command: |
+                        URL="https://blog.udacity.com"
+                        if curl -s --head ${URL}
+                        then
+                            return 0
+                        else
+                            return 1
+                        fi
 workflows:
     myWorkflow:
         jobs:
-#            - create_infrastructure
-            -   configure_infrastructure
-#                    requires:
-#                        - create_infrastructure
+            #            - create_infrastructure
+            #            -   configure_infrastructure
+            #                    requires:
+            #                        - create_infrastructure
+            - smoke_test
 
