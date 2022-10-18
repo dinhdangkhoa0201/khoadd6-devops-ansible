@@ -11,15 +11,31 @@ jobs:
         steps:
             - checkout
             -   run:
-                  name: Create Cloudformation Stack
-                  command: |
-                      aws cloudformation deploy \
-                      --template-file template.yml \
-                      --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-                      --region us-east-1
+                    name: Create Cloudformation Stack
+                    command: |
+                        aws cloudformation deploy \
+                        --template-file template.yml \
+                        --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+                        --region us-east-1
+
+    configure_infrastructure:
+        docker:
+            -   image:
+        step:
+            - checkout
+            -   add_ssh_keys:
+                  fingerprints: ["48:48:9d:82:d5:6c:9e:85:40:52:e3:bc:b7:49:d4:c0"]
+            -   run:
+                    name: Install Ansible
+                    command: |
+                        apk add --update ansible
+            -   run:
+                    name: Run Playbook and Configure server
+                    command: |
+                        ansible-playbook -i inventory main.yml
 
 workflows:
     myWorkflow:
         jobs:
-            - create_infrastructure
+            - configure_infrastructure
 
