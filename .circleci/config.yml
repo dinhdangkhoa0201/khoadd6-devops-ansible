@@ -79,7 +79,7 @@ jobs:
                         aws cloudformation deploy \
                         --template-file bucket.yml \
                         --stack-name stack-name-create-bucket-${CIRCLE_WORKFLOW:0:7} \
-                        --paramter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW:0:7}"
+                        --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW:0:7}"
             -   run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW:0:7} --delete
 
     get_last_deployment_id:
