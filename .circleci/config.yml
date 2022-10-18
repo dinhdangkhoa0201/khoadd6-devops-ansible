@@ -24,7 +24,7 @@ jobs:
         steps:
             - checkout
             -   add_ssh_keys:
-                  fingerprints: ["48:48:9d:82:d5:6c:9e:85:40:52:e3:bc:b7:49:d4:c0"]
+                    fingerprints: [ "48:48:9d:82:d5:6c:9e:85:40:52:e3:bc:b7:49:d4:c0" ]
             -   run:
                     name: Install dependencies
                     command: |
@@ -43,6 +43,7 @@ workflows:
     myWorkflow:
         jobs:
             - create_infrastructure
-            - configure_infrastructure:
-                  requires: create_infrastructure
+            -   configure_infrastructure:
+                    requires:
+                        - create_infrastructure
 
