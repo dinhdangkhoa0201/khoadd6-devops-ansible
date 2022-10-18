@@ -51,6 +51,7 @@ jobs:
     smoke_test:
         docker:
             -   image: alpine:latest
+            - image: amazon/aws-cli
         steps:
             -   run: apk add --update curl
             -   run:
@@ -63,15 +64,12 @@ jobs:
                         else
                             return 1
                         fi
-            -   run:
-                    name: Test job
-                    command: return 1
             - destroy_environment
 workflows:
     myWorkflow:
         jobs:
             - create_infrastructure
-              #            -   configure_infrastructure
+            #            -   configure_infrastructure
             #                    requires:
             #                        - create_infrastructure
             -   smoke_test:
